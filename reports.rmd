@@ -1,0 +1,25 @@
+---
+title: "Stevenson Dining Hall Health Inspection Reports"
+author: "Declan Bradley"
+date: "`r Sys.Date()`"
+output: 
+    pdf_document: 
+        keep_tex: true 
+---
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+library(tidyverse)
+
+df <- read_csv('data/stevie.csv')
+
+for (i in 1:length(df$type)) {
+    cat(paste('# ', df[i,]$type, ' (', df[i,]$date, ')\n\n', sep=''))
+    cat(paste('**', df[i,]$summary, '**\n\n', sep=''))
+    cat(df[i,]$critical %>% gsub('\n', '\n\n', .))
+    cat('\n\n')
+    cat(df[i,]$non_critical %>% gsub('\n', '\n\n', .))
+    cat('\n\n')
+}
+
+```
