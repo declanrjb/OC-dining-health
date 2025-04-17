@@ -99,3 +99,19 @@ heritage <- heritage %>%
   mutate(hall = "Heritage Dining Hall")
 heritage %>%
   write.csv('data/heritage.csv', row.names=FALSE)
+
+scrape_location <- function(name, url) {
+  df <- scrape_reports(url)
+  df <- df %>%
+    mutate(hall = name)
+  df %>%
+    write.csv(paste('data/halls/',name,'.csv',sep=''), row.names=FALSE)
+}
+
+scrape_location("Lorenzo's Pizzera", 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=19ACAA8226B1E00C88257BF6007CF55B')
+
+scrape_location("Aladdin's Eatery", 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=F3FF25989547897988257BF6007CF77F')
+
+scrape_location('Thi Ni Thai', 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=813C5D536CC964C78525844D004AEFDC')
+
+scrape_location('The Feve', 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=60465B48E880F3E288257BF6007CF5C3')

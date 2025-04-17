@@ -45,3 +45,31 @@ df %>%
   filter(date == '2025-04-09') %>%
   filter(hall == 'Wilder Hall') %>%
   pull(critical)
+
+crits_by_date <- df %>%
+  filter(grepl('Standard', type)) %>%
+  filter(hall == 'Stevenson Dining Hall') %>%
+  group_by(date, hall) %>%
+  summarize(crits = sum(crit_count))
+
+crits_by_date %>%
+  ggplot(aes(x = date, y = crits)) +
+  geom_col()
+
+test <- df %>% filter(hall == 'Stevenson Dining Hall') %>% arrange(date)
+View(test)
+test <- test %>% filter(grepl('Standard',type,ignore.case=TRUE) | grepl('Control Point',type,ignore.case=TRUE))
+test <- test %>% select(type, date, crit_count, noncrit_count)
+View(test)
+dim(test)
+
+stevie <- df %>% 
+  filter(hall == 'Stevenson Dining Hall') %>% 
+  arrange(date)
+
+df %>%
+  filter(year(date) >= 2019) %>%
+  group_by(hall) %>%
+  summarize(crits = sum(crit_count)) %>%
+  arrange(-crits) %>%
+  write.csv('viz/crits-with-town.csv', row.names=FALSE)

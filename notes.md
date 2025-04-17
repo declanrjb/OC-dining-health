@@ -20,3 +20,5 @@ andrea (director of coms)
 student senate has a student representative for dining
 
 stevie has had at least one critical violation for each of the last 12 routine inspections, and has not passed a routine inspection since October 2018
+first warned about the flies in October 2023
+re-warned in October 2024 and now

@@ -1,5 +1,5 @@
 ---
-title: "Stevenson Dining Hall Health Inspection Reports"
+title: "Oberlin Dining Hall Health Inspection Reports"
 author: "Declan Bradley"
 date: "`r Sys.Date()`"
 output: 
@@ -11,10 +11,13 @@ output:
 
 library(tidyverse)
 
-df <- read_csv('data/stevie.csv')
+df <- read_csv('data/all-halls.csv')
+df <- df %>%
+    arrange(hall, desc(date))
 
 for (i in 1:length(df$type)) {
-    cat(paste('# ', df[i,]$type, ' (', df[i,]$date, ')\n\n', sep=''))
+    cat(paste('# ', df[i,]$hall, '\n\n', sep=''))
+    cat(paste('', df[i,]$type, ' (', df[i,]$date, ')\n\n', sep=''))
     cat(paste('**', df[i,]$summary, '**\n\n', sep=''))
     cat(df[i,]$critical %>% gsub('\n', '\n\n', .))
     cat('\n\n')
