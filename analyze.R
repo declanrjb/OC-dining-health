@@ -57,11 +57,8 @@ crits_by_date %>%
   geom_col()
 
 test <- df %>% filter(hall == 'Stevenson Dining Hall') %>% arrange(date)
-View(test)
 test <- test %>% filter(grepl('Standard',type,ignore.case=TRUE) | grepl('Control Point',type,ignore.case=TRUE))
 test <- test %>% select(type, date, crit_count, noncrit_count)
-View(test)
-dim(test)
 
 stevie <- df %>% 
   filter(hall == 'Stevenson Dining Hall') %>% 
@@ -69,7 +66,31 @@ stevie <- df %>%
 
 df %>%
   filter(year(date) >= 2019) %>%
+  filter(grepl('Standard',type,ignore.case=TRUE) | grepl('Control Point',type,ignore.case=TRUE)) %>%
   group_by(hall) %>%
   summarize(crits = sum(crit_count)) %>%
   arrange(-crits) %>%
   write.csv('viz/crits-with-town.csv', row.names=FALSE)
+
+df %>%
+  filter(year(date) >= 2019) %>%
+  filter(grepl('Standard',type,ignore.case=TRUE) | grepl('Control Point',type,ignore.case=TRUE)) %>%
+  group_by(hall) %>%
+  summarize(Violation_Inspections = length(which(crit_count > 0)), Inspections = length(crit_count)) %>%
+  mutate(Clean_Inspections = Inspections - Violation_Inspections, Violation_Rate = Violation_Inspections / Inspections) %>%
+  mutate(hall = paste(hall, " (", Inspections, " standard inspections)", sep="")) %>%
+  arrange(desc(Violation_Rate)) %>%
+  write.csv('viz/crit-rate.csv', row.names=FALSE)
+
+df %>% 
+  arrange(desc(date)) %>%
+  select(hall, type, date, crit_count, noncrit_count, link) %>%
+  mutate(link = paste("<a href='", link, "'>Click Here</a>", sep='')) %>%
+  rename(Location = hall) %>%
+  rename(`Inspection Type` = type) %>%
+  rename(`Critical Violations` = crit_count) %>%
+  rename(`Non-Critical Violations` = noncrit_count) %>%
+  rename(`Inspectors' Notes` = link) %>%
+  mutate(date = strftime(date, "%b. %Y")) %>%
+  rename(Date = date) %>%
+  write.csv('viz/searchable-database.csv', row.names=FALSE)

@@ -65,41 +65,6 @@ scrape_reports <- function(url) {
   return(df)
 }
 
-url <- 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=5A9F8BE97B8078C388257BF6007CF58C'
-df <- scrape_reports(url)
-df <- df %>%
-  mutate(hall = 'Stevenson Dining Hall')
-df %>%
-  write.csv('data/stevie.csv', row.names=FALSE)
-
-url <- 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=11F70733510C9EE988257BF6007CF58A'
-saunders <- scrape_reports(url)
-saunders <- saunders %>%
-  mutate(hall = 'Lord Saunders')
-saunders %>%
-  write.csv('data/saunders.csv', row.names=FALSE)
-
-url <- 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=39CE77300A1A455885257C16004E9472'
-azis <- scrape_reports(url)
-azis <- azis %>%
-  mutate(hall = "Azariah's Cafe")
-azis %>%
-  write.csv('data/azis.csv', row.names=FALSE)
-
-url <- 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=9AFBD4E8FC2F72E888257BF6007CF58B'
-wilder <- scrape_reports(url)
-wilder <- wilder %>%
-  mutate(hall = "Wilder Hall")
-wilder %>%
-  write.csv('data/wilder.csv', row.names=FALSE)
-
-url <- 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=467771A0DB5AD6D3852580BC00634686'
-heritage <- scrape_reports(url)
-heritage <- heritage %>%
-  mutate(hall = "Heritage Dining Hall")
-heritage %>%
-  write.csv('data/heritage.csv', row.names=FALSE)
-
 scrape_location <- function(name, url) {
   df <- scrape_reports(url)
   df <- df %>%
@@ -107,6 +72,18 @@ scrape_location <- function(name, url) {
   df %>%
     write.csv(paste('data/halls/',name,'.csv',sep=''), row.names=FALSE)
 }
+
+scrape_location('Stevenson Dining Hall', 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=5A9F8BE97B8078C388257BF6007CF58C')
+
+scrape_location('Lord Saunders', 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=11F70733510C9EE988257BF6007CF58A')
+
+scrape_location("Azariah's Cafe", 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=39CE77300A1A455885257C16004E9472')
+
+scrape_location('Wilder Hall', "https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=9AFBD4E8FC2F72E888257BF6007CF58B")
+
+scrape_location('Heritage Dining Hall', 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=467771A0DB5AD6D3852580BC00634686')
+
+scrape_location('Clarity Dining Hall', 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=292FF0FEB1376D91852586B700672DAE')
 
 scrape_location("Lorenzo's Pizzera", 'https://healthspace.com/Clients/Ohio/LorainCounty/Web.nsf/Food-FacilityHistory?OpenView&RestrictToCategory=19ACAA8226B1E00C88257BF6007CF55B')
 
